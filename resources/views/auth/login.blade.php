@@ -1,6 +1,7 @@
 @extends('layouts.guest')
-@include('layouts.navigation-auth')
 
+
+@section('content')
 
 <div class="col-md-12 login-container">
     <img id="img-logo" class="mb-4" style="margin: 0 auto;" src="/img/logo-taskier-light.png" alt="logo-taskier">
@@ -17,12 +18,14 @@
         </div>
         <div class="form-check mb-3">
             <label class="form-check-label" for="remember_me">Remember-me</label>
-            <input id="remember_me" class="form-check-input"" type="checkbox" name="remember_me"  />
+            <input id="remember_me" class="form-check-input" type="checkbox" name="remember_me"  />
         </div>
 
-        <div class="d-flex flex-row-reverse align-items-center">
+        <div class="d-grid gap-2 col-6 mx-auto">
             <button type="submit" id="btn-login" class="btn">Entrar</button>
-            <a class="nav-link btns-nav mx-3" href="/register">Cadastrar-se</a>
         </div>
     </form>
 </div>
+
+@endsection
+
