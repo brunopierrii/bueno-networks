@@ -4,9 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
+use Psy\CodeCleaner\FunctionContextPass;
 
 class User extends Authenticatable
 {
@@ -42,4 +45,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function assignRoles(string $role): void
+    {
+        $role = $this->roles()->firstOrCreate([
+            'name' => $role
+        ]);
+
+        // $this->roles()->attach($role);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function removeRole(string $role): void
+    {
+        $role - $this->roles()->where('name', $role)->first();
+
+        if($role) {
+            $this->roles()->detach($role);
+        }
+    }
+
 }
