@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~bootstrap';
+
+
+* {
+    font-family: 'Roboto';
+}
+
+body {
+    min-height: 100vh;
+    padding-bottom: 100px;
+    position: relative;
+}
+
+#img-logo{
+    width: 40px;
+    margin-left: 10px;
+}
+
+#navbar{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.btns-nav:hover {
+    color: blueviolet;
+}
+
+#btn-register{
+    border-color: blueviolet !important;
+    color: blueviolet !important;
+}
+
+#btn-register:hover{
+    background-color: blueviolet !important;
+    color: #fff !important;
+    border-color: blueviolet !important;
+}
+
+.login-container{
+    height: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-container h1{
+    margin: 0 auto;
+    color: blueviolet;
+    font-weight: 900;
+}
+
+.login-container form{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    min-width: 30%;
+    max-width: 60%;
+    padding: 20px;
+    box-shadow: 0px 0 8px #dcdcdc;
+}
+
+#btn-login{
+    background-color: blueviolet;
+    color: #fff;
+}
+
