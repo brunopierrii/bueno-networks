@@ -2,7 +2,6 @@
 
 
 @section('content')
-    @dump()
 
     <div class="col-md-12 login-container">
         <img id="img-logo" class="mb-4" style="margin: 0 auto;" src="/img/logo-taskier-light.png" alt="logo-taskier">
