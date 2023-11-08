@@ -67,7 +67,7 @@ class User extends Authenticatable
 
     public function removeRole(string $role): void
     {
-        $role - $this->roles()->where('name', $role)->first();
+        $role = $this->roles()->where('name', $role)->first();
 
         if($role) {
             $this->roles()->detach($role);
