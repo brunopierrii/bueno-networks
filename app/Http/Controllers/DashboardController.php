@@ -10,7 +10,8 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        $userLogged = auth()->user();
+        $userLogged = User::find(auth()->user()->id);
+        $userLogged->roles = $userLogged->roles()->getResults()->toArray()[0]['name'];
 
         $users = User::all();
         
