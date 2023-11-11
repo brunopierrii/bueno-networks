@@ -5341,6 +5341,30 @@ module.exports = axios;
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(/*! ./bootstrap.js */ "./resources/js/bootstrap.js");
+document.addEventListener('DOMContentLoaded', function () {
+  // set time para fechar feedback usuário
+  setTimeout(function () {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function (alert) {
+      alert.style.transition = 'opacity 1s';
+      alert.style.opacity = 0;
+      setTimeout(function () {
+        alert.style.display = 'none';
+      }, 1000);
+    });
+  }, 5000);
+
+  // add evento para pegar dado do botão de manager-user, e excluir o usuário
+  var modal = document.getElementById('modal-delete');
+  var formBtnDelete = document.getElementById('form-btn-modal');
+  if (modal) {
+    modal.addEventListener('show.bs.modal', function (event) {
+      var buttonValue = event.relatedTarget;
+      var routeDelete = buttonValue.getAttribute('data-dado');
+      formBtnDelete.action = routeDelete;
+    });
+  }
+});
 
 /***/ }),
 
