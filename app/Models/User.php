@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'device_token'
     ];
 
     /**
@@ -63,6 +64,11 @@ class User extends Authenticatable
     public function hasRole(string $role): bool
     {
         return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('name', 'admin')->exists();
     }
 
     public function removeRole(string $role): void
