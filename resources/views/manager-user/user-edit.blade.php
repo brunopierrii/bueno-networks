@@ -13,6 +13,14 @@
             <div class="row">
                 <div class="col d-flex justify-content-center row-edit-user">
                     <form action="/manager-user/update/{{ $user->id }}" method="POST" class="align-self-center">
+                        @if (!empty($errors->toArray()))
+                            <div class="alert alert-danger" role="alert">
+                                @if (isset($errors->toArray()['email']))
+                                    {{ $errors->toArray()['email'][0] }}   
+                                @endif
+                                <br>
+                            </div>
+                        @endif
                         @csrf
                         @method('PUT')
                         <div class="form-floating mb-3">
