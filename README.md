@@ -19,7 +19,7 @@
 - Após instalar todas as depedências, run `npm install`
 - Com tudo instalado vá na raiz do seu projeto crie um arquivo .env, agora localize o arquivo default .env.example, copie o conteúdo e cole dentro do novo arquivo .env
 - Após ter o seu arquivo .env configure agora no mesmo apenas o banco de dados de sua preferência e suas credencias
-- O .env já vai existir configuração para envio de notificação por emai, e notificação push, usando FCM(Firebase Cloud Messaging)
+- O .env já vai existir configuração para envio de notificação por email, e notificação push, usando FCM(Firebase Cloud Messaging)
 - Agora run `php artisan migrate` para migrar o eu banco de dados, e as migrations existentes no projeto
   
 ### Run Project
