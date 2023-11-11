@@ -11,7 +11,6 @@
 
 body {
     min-height: 100vh;
-    padding-bottom: 100px;
     position: relative;
 }
 
@@ -30,23 +29,29 @@ body {
     background-color: transparent;
 }
 
-.btns-nav:hover {
+.btns-nav{
+    color: #fff;
+    font-weight: 600;
+}
+
+/* .btns-nav:hover {
     color: blueviolet;
-}
+} */
 
-#btn-register{
-    border-color: blueviolet !important;
-    color: blueviolet !important;
-}
-
-#btn-register:hover{
-    background-color: blueviolet !important;
+.btn-register{
+    border: 2px solid !important;
+    border-color: #fff !important;
     color: #fff !important;
+}
+
+.btn-register:hover{
+    background-color: blueviolet !important;
     border-color: blueviolet !important;
 }
 
 .login-container{
-    height: 100%;
+    background-color: whitesmoke;
+    height: 100vh;
     display: flex;
     margin: 0 auto;
     justify-content: center;
@@ -65,11 +70,49 @@ body {
     min-width: 30%;
     max-width: 60%;
     padding: 20px;
-    box-shadow: 0px 0 8px #dcdcdc;
+    box-shadow: 0px 0 8px #cacaca;
+    margin-bottom: 50px;
 }
 
 #btn-login{
     background-color: blueviolet;
     color: #fff;
+}
+
+.btn-submit{
+    background-color: blueviolet !important;
+    color: #fff !important;
+}
+
+.btn-submit:hover{
+    background-color: rgb(112, 47, 173) !important;
+    color: #fff !important;
+}
+
+#container-main{
+    margin: 0 auto;
+    height: 90vh;
+}
+
+#container-secondary{
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    min-width: 50%;
+    max-width: 80%;
+    box-shadow: 0px 0 8px #cacaca;
+}
+
+#container-form{
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    min-width: 20%;
+    max-width: 40%;
+    box-shadow: 0px 0 8px #cacaca;    
+}
+
+.row-edit-user form{
+    width: 90% !important;
 }
 
