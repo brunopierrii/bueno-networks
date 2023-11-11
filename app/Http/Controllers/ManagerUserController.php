@@ -4,31 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\EmailNotification;
+use App\Service\MessageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Validation\Rules;
-use Termwind\Components\Raw;
+
 
 class ManagerUserController extends Controller
 {
+    private MessageService $messageService;
 
-    public function index()
+    public function __construct(MessageService $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
+    public function index(): View
     {
         $userAuth = User::find(auth()->user()->id);
 
-        if(!$userAuth->isAdmin()){
+        if (!$userAuth->isAdmin()) {
             return back();
         }
 
         $users = User::all();
 
         $usersView = [];
-        foreach($users as $user){
-            $user->roles = '';
-            foreach($user->roles()->getResults()->toArray() as $role){
-                $user->role .= $role['name'];
+        foreach ($users as $user) {
+            foreach ($user->roles as $role) {
+                $user->role .= $role->name;
             }
             $usersView[] = $user;
         }
@@ -50,14 +57,21 @@ class ManagerUserController extends Controller
 
     public function update(Request $request, int $id): RedirectResponse
     {
+        $userAuth = auth()->user();
+
         $data = $request->all();
 
         $user = User::find($id);
-
         $user->roles()->sync([$request->role]);
         $user->update($data);
 
-        return redirect('/manager-user');
+        if($user->device_token){
+            $this->messageService->send($user->device_token, 'Seu usuário foi editado', 'Por: '.$userAuth->name);
+        }
+
+        return redirect('/manager-user')
+            ->with('msg', 'Usuário atualizado com sucesso')
+            ->with('colorMsg', 'success');
     }
 
     public function create(): View
@@ -69,7 +83,7 @@ class ManagerUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -81,6 +95,36 @@ class ManagerUserController extends Controller
 
         $user->assignRoles($request->role);
 
-        return redirect('/manager-user')->with('msg', 'Usuário salvo com sucesso');
+        $msg = [
+            'userAuth' => auth()->user()->name,
+            'userMail' =>  $user->name,
+            'welcome' => "Bem vindo ao taskier, clique no botão a baixo e faça login usando as credencias.",
+            'email' => $user->email,
+            'password' => $request->password
+        ];
+
+        $user->notify(new EmailNotification($msg));
+
+        return redirect('/manager-user')
+            ->with('msg', 'Usuário criado com sucesso')
+            ->with('colorMsg', 'success');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $user = User::find($id);
+
+        if ($user->id == auth()->user()->id) {
+            return redirect('/manager-user')
+                ->with('msgError', 'Não pode deletar o usuário que está logado!')
+                ->with('colorMsg', 'warning');
+        }
+
+        $user->roles()->detach();
+        $user->delete();
+
+        return redirect('/manager-user')
+            ->with('msg', 'Usuário deletado com sucesso')
+            ->with('colorMsg', 'success');
     }
 }
