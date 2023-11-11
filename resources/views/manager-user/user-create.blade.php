@@ -13,15 +13,28 @@
             <div class="row">
                 <div class="col d-flex justify-content-center row-edit-user">
                     <form action="/manager-user/new" method="POST" class="align-self-center">
+
+                        @if (!empty($errors->toArray()))
+                            <div class="alert alert-danger" role="alert">
+                                @if (isset($errors->toArray()['email']))
+                                    {{ $errors->toArray()['email'][0] }}   
+                                @endif
+                                <br>
+                                @if (isset($errors->toArray()['password']))
+                                    {{ $errors->toArray()['password'][0] }}   
+                                @endif
+                            </div>
+                        @endif
                         @csrf
 
                         <div class="form-floating mb-3">
-                            <input id="name" class="form-control" type="text" name="name" required autofocus />
+                            <input id="name" class="form-control" type="text" name="name" value="{{ old('name') }}" required autofocus />
                             <label for="name">Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input id="email" class="form-control" type="email" name="email" required autofocus />
+                            <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autofocus />
                             <label for="email">Email</label>
+                            <div class="form-text text-danger">*Informe um email válido para receber as credencias.</div>
                         </div>
 
                         <div class="mb-3 form-floating">
