@@ -46,10 +46,17 @@ class ManagerUserController extends Controller
     public function edit(int $id): View
     {
         $user = User::find($id);
+
+        $roleUser = '';
+        foreach ($user->roles as $role) {
+            $roleUser = $role;
+        }
+
         $roles = Role::all();
 
         return view('manager-user.user-edit', [
             'user' => $user,
+            'roleUser' => $roleUser,
             'roles' => $roles
         ]);
     }
