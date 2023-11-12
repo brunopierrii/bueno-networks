@@ -46,7 +46,6 @@ class ManagerUserController extends Controller
     public function edit(int $id): View
     {
         $user = User::find($id);
-
         $roles = Role::all();
 
         return view('manager-user.user-edit', [
@@ -58,15 +57,14 @@ class ManagerUserController extends Controller
     public function update(Request $request, int $id): RedirectResponse
     {
         $userAuth = auth()->user();
-
         $data = $request->all();
 
         $user = User::find($id);
-        $user->roles()->sync([$request->role]);
+        $user->roles()->sync([$request->role_id]);
         $user->update($data);
 
-        if($user->device_token){
-            $this->messageService->send($user->device_token, 'Seu usuário foi editado', 'Por: '.$userAuth->name);
+        if ($user->device_token) {
+            $this->messageService->send($user->device_token, 'Seu usuário foi editado', 'Por: ' . $userAuth->name);
         }
 
         return redirect('/manager-user')
