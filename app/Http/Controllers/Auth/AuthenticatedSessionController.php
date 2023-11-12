@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -21,14 +22,17 @@ class AuthenticatedSessionController extends Controller
     {
         $user = User::where('email', 'admin@admin.com')->first();
 
-        if(is_null($user)){
+        if (is_null($user)) {
             $user = User::factory()->create([
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
                 'password' => 'admin123'
             ]);
-
             $user->assignRoles('admin');
+
+            $roleCommom = new Role();
+            $roleCommom->name = 'commom';
+            $roleCommom->save();
         }
 
         return view('auth.login');
@@ -39,16 +43,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        try{
+        try {
             $request->authenticate();
 
             $request->session()->regenerate();
 
             return redirect()->intended(RouteServiceProvider::HOME);
-
-        } catch(ValidationException $validator){
+        } catch (ValidationException $validator) {
             return redirect('/login')->with('msg', $validator->getMessage());
-        }       
+        }
     }
 
     /**
