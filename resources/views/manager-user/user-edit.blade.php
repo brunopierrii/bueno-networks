@@ -34,9 +34,9 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="mb-3 form-floating">
-                            <select id="role" name="role" class="form-select">
+                            <select id="role" name="role_id" class="form-select">
                                 @foreach ($roles as $role)
-                                    <option value="{{$role->id}}">{{ $role->name == 'admin' ? 'Administrador' : 'Comum' }}</option>
+                                <option value="{{$role->id}}">{{ $role->name == 'admin' ? 'Administrador' : 'Comum' }}</option>
                                 @endforeach
                             </select>
                             <label for="email">Selecione o nível do usuário</label>
@@ -46,7 +46,10 @@
                             <a href="/manager-user" class="btn btn-secondary">Voltar</a>
                         </div>
                     </form>
-
+                    <script type="text/javascript">
+                        const select = document.getElementById('role');
+                        select.value = {{ $roleUser->id }}
+                    </script>
                 </div>
             </div>
         </div>
